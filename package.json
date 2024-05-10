@@ -1,7 +1,6 @@
 {
   "name": "sbl",
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d build",
+  "homepage": "https://myusername.github.io/my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
