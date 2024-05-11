@@ -1,28 +1,46 @@
+import { Component } from "react"
 import { posts } from "../../shared/projectData"
-import { getAmountOfPosts } from "../../shared/projectLogic"
 import "./BlogContent.css"
+import { BlogCard } from "./components/BlogCard"
 
-export const BlogContent = () => {
 
-const blogPosts = posts.map((item) => {
+export class BlogContent extends Component {
+
+state = {showBlog:true}
+
+blogPosts = posts.map((item) => {
     return (
-        <div key={item.id} className="post">
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
-        </div>
+        <BlogCard 
+        key = {item.id}
+        title = {item.title}
+        description = {item.description}
+        />
     )
 })
 
+toggleBlog = () => {
+    this.setState(({showBlog}) => {
+        return{
+        showBlog: !showBlog
+        }
+    })
+}
+render() {
     return (
-        <>
-            <h1 className="pstatitle">Simple Blog</h1>
-            <div className="posts">
-                {blogPosts}
-            </div>
-
-            <div className="count">
-                <button onClick={() => getAmountOfPosts(posts)}>Get amount of posts</button>
-            </div>
-        </>
-    )
+            <>
+                <button onClick={this.toggleBlog}>
+                    {this.state.showBlog ? 'Скрыть блог' : 'Показать блог'}
+                </button>
+                {this.state.showBlog ?
+                <>
+                <h1 className="pstatitle">Simple Blog</h1>
+                <div className="posts">
+                    {this.blogPosts}
+                </div>
+                </>
+                : null
+                }
+            </>
+        )
+    }
 }
