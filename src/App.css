@@ -17,6 +17,8 @@ button {
     outline: unset;
     border: none;
     font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    background-color: unset;
 }
 
 main {
