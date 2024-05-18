@@ -1,9 +1,13 @@
 .post {
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+.postContent {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .deleteBtn svg {
-    font-size: 40px;
+    font-size: 20px;
 }

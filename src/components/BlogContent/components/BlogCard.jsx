@@ -11,22 +11,26 @@ export const BlogCard = ({
     deletePost
 }) => {
 
-const heartFill = liked ? 'crimson' : 'black'
+    const heartFill = liked ? 'crimson' : 'black'
 
-        return(
-            <div key={id} className="post">
-                <div className="postContent">
-                    <h2>{title}</h2>
-                    <p>{description}</p>
-                    <div>
-                        <button onClick={likePost}>
-                            <FavoriteIcon style={{fill: heartFill}} />
-                        </button>
+    return (
+        <div key={id} className="post">
+            <div className="postContent">
+                <div>
+                <div><h2>{title}</h2></div>
+                <div><p>{description}</p></div> 
                 </div>
-                    <button className="deleteBtn" onClick={deletePost}>
-                        <DeleteForeverIcon />
-                    </button>
-                </div>
+                <button className="deleteBtn" onClick={deletePost}>
+                    <DeleteForeverIcon />
+                </button>
             </div>
-        )
+            <div>
+                <button onClick={likePost}>
+                    <FavoriteIcon style={{ fill: heartFill }} />
+                </button>
+            </div>
+
+
+        </div>
+    )
 }
