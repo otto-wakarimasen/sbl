@@ -47,6 +47,31 @@ handleAddFormHide = () => {
     })
 }
 
+handleEscape = (e) => {
+    if (e.key === 'Escape' && this.state.showAddForm) this.handleAddFormHide()
+}
+
+addNewBlogPost = (blogPost) => {
+    this.setState((state) => {
+        const posts = [...state.blogArr];
+        posts.push(blogPost);
+        localStorage.setItem('blogPosts', JSON.stringify(posts))
+        return {
+            blogArr: posts
+        }
+    })
+
+    this.handleAddFormHide()
+}
+
+componentDidMount() {
+    window.addEventListener('keyup', this.handleEscape)
+   }
+
+componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleEscape)
+}
+
 render() {
 const blogPosts = this.state.blogArr.map((item, pos) => {
         return (
@@ -60,20 +85,32 @@ const blogPosts = this.state.blogArr.map((item, pos) => {
             />
         )
     })
-        return (
-            <>
+
+         return (
+            <div className="blogPage">
             {
-                this.state.showAddForm ? <AddPostForm handleAddFormHide={this.handleAddFormHide} /> : null
+                this.state.showAddForm ? (
+                <AddPostForm 
+                blogArr={this.state.blogArr} 
+                addNewBlogPost={this.addNewBlogPost}
+                /> 
+                ) : null
             }
                 
                     <>
-                        <h1 className="pstatitle">Simple Blog</h1>
-                        <button className="blackBtn" onClick={this.handleAddFormShow}>Создать новый пост</button>
+                        <h1 className="pstatitle">Блог</h1>
+                            <div className="addNewPost">
+                            <button 
+                            className="blackBtn" 
+                            onClick={this.handleAddFormShow}>
+                                Создать новый пост
+                            </button>
+                            </div>
                         <div className="posts">
                             {blogPosts}
                         </div>
                     </>
-            </>
+            </div>
         )
     }
 }
