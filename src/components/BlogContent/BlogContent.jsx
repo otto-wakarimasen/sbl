@@ -2,12 +2,13 @@ import { Component } from "react"
 import { posts } from "../../shared/projectData"
 import "./BlogContent.css"
 import { BlogCard } from "./components/BlogCard"
+import { AddPostForm } from "./components/AddPostForm"
 
 
 export class BlogContent extends Component {
 
 state = {
-    showBlog: true,
+    showAddForm: false,
     blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
 }
 
@@ -19,16 +20,6 @@ likePost = (pos) => {
         blogArr: temp
     })
     localStorage.setItem('blogPosts', JSON.stringify(temp))
-}
-
-
-
-toggleBlog = () => {
-    this.setState(({showBlog}) => {
-        return{
-        showBlog: !showBlog
-        }
-    })
 }
 
 deletePost = pos => {
@@ -44,6 +35,18 @@ deletePost = pos => {
     }
 }
 
+handleAddFormShow = () => {
+    this.setState({
+        showAddForm: true
+    })
+}
+
+handleAddFormHide = () => {
+    this.setState({
+        showAddForm: false
+    })
+}
+
 render() {
 const blogPosts = this.state.blogArr.map((item, pos) => {
         return (
@@ -57,20 +60,19 @@ const blogPosts = this.state.blogArr.map((item, pos) => {
             />
         )
     })
-    return (
+        return (
             <>
-                <button onClick={this.toggleBlog}>
-                    {this.state.showBlog ? 'Скрыть блог' : 'Показать блог'}
-                </button>
-                {this.state.showBlog ?
-                <>
-                <h1 className="pstatitle">Simple Blog</h1>
-                <div className="posts">
-                    {blogPosts}
-                </div>
-                </>
-                : null
-                }
+            {
+                this.state.showAddForm ? <AddPostForm handleAddFormHide={this.handleAddFormHide} /> : null
+            }
+                
+                    <>
+                        <h1 className="pstatitle">Simple Blog</h1>
+                        <button className="blackBtn" onClick={this.handleAddFormShow}>Создать новый пост</button>
+                        <div className="posts">
+                            {blogPosts}
+                        </div>
+                    </>
             </>
         )
     }
