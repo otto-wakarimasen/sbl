@@ -60,8 +60,6 @@ addNewBlogPost = (blogPost) => {
             blogArr: posts
         }
     })
-
-    this.handleAddFormHide()
 }
 
 componentDidMount() {
@@ -93,6 +91,7 @@ const blogPosts = this.state.blogArr.map((item, pos) => {
                 <AddPostForm 
                 blogArr={this.state.blogArr} 
                 addNewBlogPost={this.addNewBlogPost}
+                handleAddFormHide={this.handleAddFormHide}
                 /> 
                 ) : null
             }
