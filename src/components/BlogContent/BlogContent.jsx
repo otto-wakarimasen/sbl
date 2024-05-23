@@ -1,114 +1,124 @@
 import { Component } from "react"
-import { posts } from "../../shared/projectData"
 import "./BlogContent.css"
 import { BlogCard } from "./components/BlogCard"
 import { AddPostForm } from "./components/AddPostForm"
-
+import axios from "axios"
+import { postsUrl } from "../../shared/projectData"
 
 export class BlogContent extends Component {
 
-state = {
-    showAddForm: false,
-    blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
-}
+    state = {
+        showAddForm: false,
+        blogArr: []
+    }
 
-likePost = (pos) => {
-    const temp = [...this.state.blogArr];
-    temp[pos].liked = !temp[pos].liked
-
-    this.setState({
-        blogArr: temp
-    })
-    localStorage.setItem('blogPosts', JSON.stringify(temp))
-}
-
-deletePost = pos => {
-    if (window.confirm(`Вы уверены, что хотите удалить ${this.state.blogArr[pos].title} ?`)) {
+    likePost = (pos) => {
         const temp = [...this.state.blogArr];
-        temp.splice(pos, 1);
-    
+        temp[pos].liked = !temp[pos].liked
+
         this.setState({
             blogArr: temp
         })
-
-    localStorage.setItem('blogPosts', JSON.stringify(temp))
+        localStorage.setItem('blogPosts', JSON.stringify(temp))
     }
-}
 
-handleAddFormShow = () => {
-    this.setState({
-        showAddForm: true
-    })
-}
+    deletePost = pos => {
+        if (window.confirm(`Вы уверены, что хотите удалить ${this.state.blogArr[pos].title} ?`)) {
+            const temp = [...this.state.blogArr];
+            temp.splice(pos, 1);
 
-handleAddFormHide = () => {
-    this.setState({
-        showAddForm: false
-    })
-}
+            this.setState({
+                blogArr: temp
+            })
 
-handleEscape = (e) => {
-    if (e.key === 'Escape' && this.state.showAddForm) this.handleAddFormHide()
-}
-
-addNewBlogPost = (blogPost) => {
-    this.setState((state) => {
-        const posts = [...state.blogArr];
-        posts.push(blogPost);
-        localStorage.setItem('blogPosts', JSON.stringify(posts))
-        return {
-            blogArr: posts
+            localStorage.setItem('blogPosts', JSON.stringify(temp))
         }
-    })
-}
+    }
 
-componentDidMount() {
-    window.addEventListener('keyup', this.handleEscape)
-   }
+    handleAddFormShow = () => {
+        this.setState({
+            showAddForm: true
+        })
+    }
 
-componentWillUnmount() {
-    window.removeEventListener('keyup', this.handleEscape)
-}
+    handleAddFormHide = () => {
+        this.setState({
+            showAddForm: false
+        })
+    }
 
-render() {
-const blogPosts = this.state.blogArr.map((item, pos) => {
-        return (
-            <BlogCard 
-            key = {item.id}
-            title = {item.title}
-            description = {item.description}
-            liked = {item.liked}
-            likePost = {() => this.likePost(pos)}
-            deletePost = {() => this.deletePost(pos)}
-            />
-        )
-    })
+    handleEscape = (e) => {
+        if (e.key === 'Escape' && this.state.showAddForm) this.handleAddFormHide()
+    }
 
-         return (
-            <div className="blogPage">
-            {
-                this.state.showAddForm ? (
-                <AddPostForm 
-                blogArr={this.state.blogArr} 
-                addNewBlogPost={this.addNewBlogPost}
-                handleAddFormHide={this.handleAddFormHide}
-                /> 
-                ) : null
+    addNewBlogPost = (blogPost) => {
+        this.setState((state) => {
+            const posts = [...state.blogArr];
+            posts.push(blogPost);
+            localStorage.setItem('blogPosts', JSON.stringify(posts))
+            return {
+                blogArr: posts
             }
-                
-                    <>
-                        <h1 className="pstatitle">Блог</h1>
-                            <div className="addNewPost">
-                            <button 
-                            className="blackBtn" 
+        })
+    }
+
+    componentDidMount() {
+        axios.get(postsUrl)
+        .then((response) => {
+            this.setState({
+                blogArr: response.data
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        window.addEventListener('keyup', this.handleEscape)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keyup', this.handleEscape)
+    }
+
+    render() {
+        const blogPosts = this.state.blogArr.map((item, pos) => {
+            return (
+                <BlogCard
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    liked={item.liked}
+                    likePost={() => this.likePost(pos)}
+                    deletePost={() => this.deletePost(pos)}
+                />
+            )
+        })
+if (this.state.blogArr.length === 0)
+    return <h1>Загружаю данные...</h1>
+        return (
+            <div className="blogPage">
+                {
+                    this.state.showAddForm && (
+                        <AddPostForm
+                            blogArr={this.state.blogArr}
+                            addNewBlogPost={this.addNewBlogPost}
+                            handleAddFormHide={this.handleAddFormHide}
+                        />
+                    )
+                }
+
+                <>
+                    <h1 className="pstatitle">Блог</h1>
+                    <div className="addNewPost">
+                        <button
+                            className="blackBtn"
                             onClick={this.handleAddFormShow}>
-                                Создать новый пост
-                            </button>
-                            </div>
-                        <div className="posts">
-                            {blogPosts}
-                        </div>
-                    </>
+                            Создать новый пост
+                        </button>
+                    </div>
+                    <div className="posts">
+                        {blogPosts}
+                    </div>
+                </>
             </div>
         )
     }

@@ -54,30 +54,30 @@ export class AddPostForm extends Component {
                     <button className="hideBtn" onClick={handleAddFormHide}><CancelIcon /></button>
                     <h2>Создание поста</h2>
                     <div>
-                        <input 
-                        className="addFormInput" 
-                        type="text" 
-                        name="postTitle" 
-                        placeholder='Заголовок поста'
-                        value = {this.state.postTitle}
-                        onChange={this.handlePostTitleChange}
-                        required
+                        <input
+                            className="addFormInput"
+                            type="text"
+                            name="postTitle"
+                            placeholder='Заголовок поста'
+                            value={this.state.postTitle}
+                            onChange={this.handlePostTitleChange}
+                            required
                         />
                     </div>
                     <div>
-                        <textarea 
-                        className="addFormInput" 
-                        name="postDescription" 
-                        placeholder='Описание поста' 
-                        value = {this.state.postDescription}
-                        onChange = {this.handlePostDescChange}
-                        required
+                        <textarea
+                            className="addFormInput"
+                            name="postDescription"
+                            placeholder='Описание поста'
+                            value={this.state.postDescription}
+                            onChange={this.handlePostDescChange}
+                            required
                         />
                     </div>
                     <div>
-                        <button 
-                        className="blackBtn" 
-                        type="submit">
+                        <button
+                            className="blackBtn"
+                            type="submit">
                             Добавить пост
                         </button>
                     </div>
