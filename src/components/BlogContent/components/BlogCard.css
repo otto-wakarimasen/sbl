@@ -2,6 +2,7 @@
     margin-left: 20vw;
     margin-right: 20vw;
     min-width: 60vw;
+    max-width: 60vw;
 }
 .postContent {
     display: flex;
@@ -9,6 +10,15 @@
     justify-content: space-between;
 }
 
-.deleteBtn svg {
+.deleteBtn svg, .editBtn svg {
     font-size: 20px;
+}
+
+.postControl {
+    display: flex;
+    align-items: center;
+}
+
+.postControl button {
+    padding: 0;
 }
