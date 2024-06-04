@@ -1,32 +1,40 @@
-import './BlogCard.css'
+import s from './BlogCard.module.css'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 
 export const BlogCard = ({
-    id, 
+    id,
     title,
     description,
     liked,
     likePost,
-    deletePost
+    deletePost,
+    handleEditFormShow,
+    handleSelectPost
 }) => {
+
+    const showEditForm = () => {
+        handleSelectPost();
+        handleEditFormShow()
+    }
 
     const heartFill = liked ? 'crimson' : 'black'
 
     return (
-        <div key={id} className="post">
-            <div className="postContent">
+        <div key={id} className={s.post}>
+            <div className={s.postContent}>
                 <div>
-                <div><h2>{title}</h2></div>
-                <div><p>{description}</p></div> 
+                    <div><h2>{title}</h2></div>
+                    <div><p>{description}</p></div>
                 </div>
-                <div><button className='editBtn'>
-                    <EditIcon />
-                </button>
-                <button className="deleteBtn" onClick={deletePost}>
-                    <DeleteForeverIcon />
-                </button>
+                <div className={s.postControl}>
+                    <button className={s.editBtn} onClick={showEditForm}>
+                        <EditIcon />
+                    </button>
+                    <button className={s.deleteBtn} onClick={deletePost}>
+                        <DeleteForeverIcon />
+                    </button>
                 </div>
             </div>
             <div>
@@ -34,8 +42,6 @@ export const BlogCard = ({
                     <FavoriteIcon style={{ fill: heartFill }} />
                 </button>
             </div>
-
-
         </div>
     )
 }
