@@ -1,4 +1,4 @@
-import { BlogContent } from "./containers/BlogContent/BlogContent";
+import { BlogContent } from "./containers/BlogPage/BlogContent";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
 import "./App.css"
