@@ -1,5 +1,5 @@
 import { Component } from "react";
-import s from "./BlogContent.module.css";
+import s from "./BlogPage.module.css";
 import { BlogCard } from "./components/BlogCard";
 import { AddPostForm } from "./components/AddPostForm";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { postsUrl } from "../../shared/projectData";
 import CircularProgress from '@mui/material/CircularProgress';
 import { EditPostForm } from "./components/EditPostForm";
 
-export class BlogContent extends Component {
+export class BlogPage extends Component {
   state = {
     showAddForm: false,
     showEditForm: false,
@@ -147,7 +147,7 @@ export class BlogContent extends Component {
     const postsOpacity = this.state.isPending ? 0.5 : 1
 
     return (
-      <div className="blogPage">
+      <div className={s.blogPage}>
         {this.state.showAddForm && (
           <AddPostForm
             blogArr={this.state.blogArr}
